@@ -6,10 +6,23 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// GitHub Pages serves static files only (no Node/Workers runtime), so this build
+// runs TanStack Start in SPA mode: the app prerenders a static shell and runs
+// entirely client-side from there (nothing here relies on live server functions).
+// Served from a project subpath (https://<user>.github.io/regerin_domina/), so
+// both the asset base (vite) and the router's own basepath must match it.
+const basePath = process.env.NODE_ENV === "production" ? "/regerin_domina" : "";
+
 export default defineConfig({
+  nitro: false,
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    spa: { enabled: true },
+    router: { basepath: basePath || "/" },
+  },
+  vite: {
+    base: `${basePath}/`,
   },
 });
