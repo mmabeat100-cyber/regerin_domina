@@ -4,7 +4,7 @@ const make = (type: CatalogType, prefix: string, labels: string[]): CatalogItem[
   labels.map((label, i) => ({ id: `${prefix}-${i + 1}`, type, label, order: i }));
 
 export const seedCatalogs: CatalogItem[] = [
-  ...make("category", "cat", ["Domina", "Bizarrlady", "Switch", "Domina en ligne", "Clinique", "Événement"]),
+  ...make("category", "cat", ["Domina", "Bizarrlady", "Switch", "Domina en ligne", "Clinique", "Événement", "Lutteuse"]),
   ...make("service", "srv", [
     "Bondage",
     "Shibari",
