@@ -7,6 +7,11 @@ export const fr = {
     about: "À propos",
     country: "Pays",
     allCountries: "Tous les pays",
+    signup: "S'inscrire",
+  },
+  signup: {
+    title: "Inscription",
+    text: "Les inscriptions se font sur invitation. Pour demander un accès, contactez l'administrateur :",
   },
   footer: {
     legal: "Mentions légales",
