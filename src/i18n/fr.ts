@@ -1,5 +1,6 @@
-/** Textes centralisés de l'interface (préparation à la traduction). */
+/** Textes centralisés de l'interface — français. Utilisé aussi tel quel par le back-office (toujours en français). */
 export const fr = {
+  dateLocale: "fr-FR",
   nav: {
     directory: "Annuaire",
     studios: "Studios",
@@ -47,6 +48,16 @@ export const fr = {
     ],
     seoTitle: "Un guide pensé pour la discrétion",
     seo: "Ringerin Domina référence des profils soigneusement présentés par notre équipe éditoriale. Aucun compte annonceur, aucune messagerie interne : vous consultez librement puis contactez directement la personne de votre choix, par téléphone, WhatsApp ou e-mail.",
+    selection: "Sélection",
+    editorial: "Éditorial",
+    seeAll: "Tout voir",
+    profilesCount: (n: number) => `${n} profil${n > 1 ? "s" : ""}`,
+  },
+  directory: {
+    pageTitle: "Trouver votre guide",
+    metaTitle: "Annuaire des dominas & bizarrladies",
+    metaDescription:
+      "Filtrez par ville, catégorie, langues, prix et pratiques pour trouver le profil qui vous correspond.",
   },
   filters: {
     title: "Filtres",
@@ -68,6 +79,10 @@ export const fr = {
     emptyText: "Essayez d'élargir vos critères ou de réinitialiser les filtres.",
     all: "Tous",
     searchServices: "Chercher un service…",
+    allCategories: "Toutes catégories",
+    allCities: "Toutes villes",
+    priceLabel: "Prix",
+    removeFilter: (label: string) => `Retirer ${label}`,
   },
   sort: {
     relevance: "Pertinence",
@@ -122,6 +137,37 @@ export const fr = {
     no: "Non",
     mailSubject: "Demande via Ringerin Domina",
     pending: "Votre avis a été envoyé et sera publié après modération.",
+    notFoundTitle: "Profil introuvable",
+    notFoundText: "Ce profil n'existe pas ou n'est plus en ligne.",
+    viewDirectory: "Voir l'annuaire",
+    draftNotice: "Aperçu — ce profil est un brouillon non publié.",
+    perHourLong: "/ heure",
+    ageUnit: (n: number) => `${n} ans`,
+    descriptionLangLabel: "Langue de la description",
+    reportPlaceholder: "Décrivez le problème…",
+    reportReasonLabel: "Motif du signalement",
+    send: "Envoyer",
+    reportSent: "Merci, votre signalement a été transmis à l'équipe.",
+    metaFallbackTitle: "Profil",
+    metaFallbackDescription: "Fiche profil",
+    metaDescription: (name: string, headline: string) =>
+      `${name} — ${headline} Tarifs, disponibilités et contact direct.`,
+  },
+  reviewsDialog: {
+    count: (n: number) => `${n} avis`,
+    visitorLoginTitle: "Connexion visiteur",
+    visitorLoginText:
+      "Connectez-vous pour laisser un avis (démo : choisissez simplement un pseudonyme).",
+    nicknameTooShort: "Pseudonyme trop court",
+    nickname: "Pseudonyme",
+    password: "Mot de passe",
+    signIn: "Se connecter",
+    formTitle: (name: string) => `Votre avis sur ${name}`,
+    loggedInAs: (name: string) =>
+      `Connecté en tant que ${name}. Les avis sont publiés après modération.`,
+    commentTooShort: "Votre commentaire doit contenir au moins 10 caractères.",
+    comment: "Commentaire",
+    send: "Envoyer",
   },
   admin: {
     dashboard: "Tableau de bord",

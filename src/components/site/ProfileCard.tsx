@@ -5,15 +5,17 @@ import { Media } from "./Media";
 import { StarRating } from "./StarRating";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fr } from "@/i18n/fr";
+import { useT } from "@/i18n";
 import { useCatalogLabel } from "@/services/catalogs";
 import { useCountries, cityName } from "@/services/geo";
 import { useStudios } from "@/services/studios";
 
-export const primaryCityOf = (p: Profile) => p.availability.find((a) => a.primaryCity)?.primaryCity ?? p.availability[0]?.cities[0];
+export const primaryCityOf = (p: Profile) =>
+  p.availability.find((a) => a.primaryCity)?.primaryCity ?? p.availability[0]?.cities[0];
 export const allCitiesOf = (p: Profile) => p.availability.flatMap((a) => a.cities);
 
 export function ProfileCard({ profile: p }: { profile: Profile }) {
+  const t = useT();
   const label = useCatalogLabel();
   const countries = useCountries();
   const studios = useStudios();
@@ -27,14 +29,24 @@ export function ProfileCard({ profile: p }: { profile: Profile }) {
       className="group block overflow-hidden rounded-lg border border-border bg-card transition-all duration-500 hover:border-gold/40 hover:shadow-elegant"
     >
       <div className="relative aspect-[2/3] overflow-hidden">
-        <Media src={p.avatar} alt={`Visuel de ${p.displayName}`} className="transition-transform duration-700 group-hover:scale-105" />
+        <Media
+          src={p.avatar}
+          alt={`${p.displayName} visual`}
+          className="transition-transform duration-700 group-hover:scale-105"
+        />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-fade" />
         <div className="absolute left-3 top-3 flex gap-1.5">
           {p.vip && (
-            <Badge variant="vip" className="gap-1"><Crown className="h-3 w-3" aria-hidden />{fr.card.vip}</Badge>
+            <Badge variant="vip" className="gap-1">
+              <Crown className="h-3 w-3" aria-hidden />
+              {t.card.vip}
+            </Badge>
           )}
           {p.verified && (
-            <Badge variant="gold" className="gap-1 backdrop-blur"><BadgeCheck className="h-3 w-3" aria-hidden />{fr.card.verified}</Badge>
+            <Badge variant="gold" className="gap-1 backdrop-blur">
+              <BadgeCheck className="h-3 w-3" aria-hidden />
+              {t.card.verified}
+            </Badge>
           )}
         </div>
         <div className="absolute inset-x-0 bottom-0 p-4">
@@ -43,25 +55,32 @@ export function ProfileCard({ profile: p }: { profile: Profile }) {
           <p className="mt-1 flex items-center gap-1 truncate text-xs text-muted-foreground">
             <MapPin className="h-3 w-3 shrink-0" aria-hidden />
             {main ? cityName(countries, main) : "—"}
-            {cities.length > 1 && <span className="text-gold">· {fr.card.moreCities(cities.length - 1)}</span>}
+            {cities.length > 1 && (
+              <span className="text-gold">· {t.card.moreCities(cities.length - 1)}</span>
+            )}
           </p>
         </div>
       </div>
       <div className="flex items-center justify-between gap-2 px-4 py-3 text-xs">
         <div className="min-w-0">
-          <p className="truncate text-muted-foreground">{studio?.name ?? fr.card.independent}</p>
+          <p className="truncate text-muted-foreground">{studio?.name ?? t.card.independent}</p>
           {p.rating.count > 0 ? (
-            <p className="mt-1 flex items-center gap-1"><StarRating value={p.rating.average} size={11} /> <span className="text-muted-foreground">({p.rating.count})</span></p>
+            <p className="mt-1 flex items-center gap-1">
+              <StarRating value={p.rating.average} size={11} />{" "}
+              <span className="text-muted-foreground">({p.rating.count})</span>
+            </p>
           ) : (
-            <p className="mt-1 text-muted-foreground/70">{fr.card.noReviews}</p>
+            <p className="mt-1 text-muted-foreground/70">{t.card.noReviews}</p>
           )}
         </div>
         <p className="shrink-0 text-right">
-          <span className="block text-[10px] uppercase tracking-wider text-muted-foreground">{fr.card.from}</span>
+          <span className="block text-[10px] uppercase tracking-wider text-muted-foreground">
+            {t.card.from}
+          </span>
           <span className="font-serif text-lg text-gold">
             {p.price.perHour} {p.price.currency === "EUR" ? "€" : "CHF"}
           </span>
-          <span className="text-muted-foreground">{fr.card.perHour}</span>
+          <span className="text-muted-foreground">{t.card.perHour}</span>
         </p>
       </div>
     </Link>
