@@ -33,7 +33,7 @@ import { useCountries, cityName } from "@/services/geo";
 import { useCatalogLabel } from "@/services/catalogs";
 import { useStudios } from "@/services/studios";
 import { seedProfiles } from "@/data/profiles";
-import { useT, useLocaleStore, locales } from "@/i18n";
+import { useT, useLocale, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
 import type { Profile } from "@/types";
 
@@ -136,13 +136,15 @@ function ContactButtons({ p }: { p: Profile }) {
 
 function ProfilePage() {
   const t = useT();
+  const siteLocale = useLocale();
   const { slug } = Route.useParams();
   const p = useProfileBySlug(slug);
   const all = usePublishedProfiles();
   const countries = useCountries();
   const studios = useStudios();
   const label = useCatalogLabel();
-  const [lang, setLang] = useState<"fr" | "en">("fr");
+  // No German profile description exists, so default to whichever of FR/EN matches the site language.
+  const [lang, setLang] = useState<"fr" | "en">(siteLocale === "fr" ? "fr" : "en");
   const [expanded, setExpanded] = useState(false);
   const [report, setReport] = useState("");
   const [reportOpen, setReportOpen] = useState(false);
