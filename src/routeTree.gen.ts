@@ -16,6 +16,7 @@ import { Route as SiteAProposRouteImport } from './routes/_site.a-propos'
 import { Route as SiteAnnuaireRouteImport } from './routes/_site.annuaire'
 import { Route as SiteConfidentialiteRouteImport } from './routes/_site.confidentialite'
 import { Route as SiteContactRouteImport } from './routes/_site.contact'
+import { Route as SiteInscriptionRouteImport } from './routes/_site.inscription'
 import { Route as SiteMentionsLegalesRouteImport } from './routes/_site.mentions-legales'
 import { Route as SiteProtectionDesMineursRouteImport } from './routes/_site.protection-des-mineurs'
 import { Route as SiteVillesRouteImport } from './routes/_site.villes'
@@ -66,6 +67,11 @@ const SiteConfidentialiteRoute = SiteConfidentialiteRouteImport.update({
 const SiteContactRoute = SiteContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteInscriptionRoute = SiteInscriptionRouteImport.update({
+  id: '/inscription',
+  path: '/inscription',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteMentionsLegalesRoute = SiteMentionsLegalesRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/annuaire': typeof SiteAnnuaireRoute
   '/confidentialite': typeof SiteConfidentialiteRoute
   '/contact': typeof SiteContactRoute
+  '/inscription': typeof SiteInscriptionRoute
   '/mentions-legales': typeof SiteMentionsLegalesRoute
   '/protection-des-mineurs': typeof SiteProtectionDesMineursRoute
   '/villes': typeof SiteVillesRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/annuaire': typeof SiteAnnuaireRoute
   '/confidentialite': typeof SiteConfidentialiteRoute
   '/contact': typeof SiteContactRoute
+  '/inscription': typeof SiteInscriptionRoute
   '/mentions-legales': typeof SiteMentionsLegalesRoute
   '/protection-des-mineurs': typeof SiteProtectionDesMineursRoute
   '/villes': typeof SiteVillesRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/_site/annuaire': typeof SiteAnnuaireRoute
   '/_site/confidentialite': typeof SiteConfidentialiteRoute
   '/_site/contact': typeof SiteContactRoute
+  '/_site/inscription': typeof SiteInscriptionRoute
   '/_site/mentions-legales': typeof SiteMentionsLegalesRoute
   '/_site/protection-des-mineurs': typeof SiteProtectionDesMineursRoute
   '/_site/villes': typeof SiteVillesRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/annuaire'
     | '/confidentialite'
     | '/contact'
+    | '/inscription'
     | '/mentions-legales'
     | '/protection-des-mineurs'
     | '/villes'
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/annuaire'
     | '/confidentialite'
     | '/contact'
+    | '/inscription'
     | '/mentions-legales'
     | '/protection-des-mineurs'
     | '/villes'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/_site/annuaire'
     | '/_site/confidentialite'
     | '/_site/contact'
+    | '/_site/inscription'
     | '/_site/mentions-legales'
     | '/_site/protection-des-mineurs'
     | '/_site/villes'
@@ -363,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof SiteContactRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/inscription': {
+      id: '/_site/inscription'
+      path: '/inscription'
+      fullPath: '/inscription'
+      preLoaderRoute: typeof SiteInscriptionRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/mentions-legales': {
@@ -492,6 +511,7 @@ interface SiteRouteChildren {
   SiteAnnuaireRoute: typeof SiteAnnuaireRoute
   SiteConfidentialiteRoute: typeof SiteConfidentialiteRoute
   SiteContactRoute: typeof SiteContactRoute
+  SiteInscriptionRoute: typeof SiteInscriptionRoute
   SiteMentionsLegalesRoute: typeof SiteMentionsLegalesRoute
   SiteProtectionDesMineursRoute: typeof SiteProtectionDesMineursRoute
   SiteVillesRoute: typeof SiteVillesRoute
@@ -508,6 +528,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteAnnuaireRoute: SiteAnnuaireRoute,
   SiteConfidentialiteRoute: SiteConfidentialiteRoute,
   SiteContactRoute: SiteContactRoute,
+  SiteInscriptionRoute: SiteInscriptionRoute,
   SiteMentionsLegalesRoute: SiteMentionsLegalesRoute,
   SiteProtectionDesMineursRoute: SiteProtectionDesMineursRoute,
   SiteVillesRoute: SiteVillesRoute,

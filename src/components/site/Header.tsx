@@ -3,7 +3,6 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./Logo";
 import { LanguageSwitch } from "./LanguageSwitch";
-import { SignupDialog } from "./SignupForm";
 import { useT } from "@/i18n";
 import { useCountries } from "@/services/geo";
 import {
@@ -67,7 +66,9 @@ export function Header() {
         <div className="hidden items-center gap-3 md:flex">
           <CountrySwitch />
           <LanguageSwitch />
-          <SignupDialog />
+          <Button asChild variant="gold">
+            <Link to="/inscription">{t.nav.signup}</Link>
+          </Button>
         </div>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -92,7 +93,11 @@ export function Header() {
             <div className="mt-8 space-y-4">
               <CountrySwitch />
               <LanguageSwitch className="w-full justify-between" />
-              <SignupDialog triggerClassName="w-full" />
+              <Button asChild variant="gold" className="w-full">
+                <Link to="/inscription" onClick={() => setOpen(false)}>
+                  {t.nav.signup}
+                </Link>
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
