@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ProfileForm } from "@/components/admin/ProfileForm";
-import { useProfileById } from "@/services/profiles";
+import { useProfileById, useProfilesQuery } from "@/services/profiles";
 import { EmptyState } from "@/components/site/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 
@@ -10,7 +10,19 @@ export const Route = createFileRoute("/admin/profils/$id")({
 
 function EditProfile() {
   const { id } = Route.useParams();
+  const { isLoading } = useProfilesQuery();
   const p = useProfileById(id);
-  if (!p) return <EmptyState title="Profil introuvable" action={<Button asChild variant="gold"><Link to="/admin/profils">Retour</Link></Button>} />;
+  if (isLoading) return null;
+  if (!p)
+    return (
+      <EmptyState
+        title="Profil introuvable"
+        action={
+          <Button asChild variant="gold">
+            <Link to="/admin/profils">Retour</Link>
+          </Button>
+        }
+      />
+    );
   return <ProfileForm key={p.id} initial={p} />;
 }

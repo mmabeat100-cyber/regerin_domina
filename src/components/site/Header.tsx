@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Mail, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./Logo";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { SignupDialog } from "./SignupForm";
 import { useT } from "@/i18n";
-import { SITE } from "@/config/site";
 import { useCountries } from "@/services/geo";
 import {
   Select,
@@ -14,42 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
-function SignupDialog({ triggerClassName }: { triggerClassName?: string }) {
-  const t = useT();
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="gold" className={triggerClassName}>
-          {t.nav.signup}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-sm rounded-xl border-gold/20 bg-card p-8 text-center shadow-elegant">
-        <DialogHeader className="items-center space-y-3 text-center sm:text-center">
-          <Mail className="h-8 w-8 text-gold" aria-hidden />
-          <DialogTitle className="font-serif text-2xl font-normal">{t.signup.title}</DialogTitle>
-          <DialogDescription className="text-balance">{t.signup.text}</DialogDescription>
-        </DialogHeader>
-        <a
-          href={`mailto:${SITE.adminEmail}`}
-          className="mx-auto mt-2 inline-flex items-center gap-2 rounded-full border border-gold/40 px-4 py-2 text-sm text-gold transition-colors hover:bg-gold hover:text-gold-foreground"
-        >
-          <Mail className="h-4 w-4" aria-hidden />
-          {SITE.adminEmail}
-        </a>
-      </DialogContent>
-    </Dialog>
-  );
-}
 
 function CountrySwitch() {
   const t = useT();

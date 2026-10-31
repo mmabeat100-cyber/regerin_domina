@@ -12,7 +12,29 @@ export const fr = {
   },
   signup: {
     title: "Inscription",
-    text: "Les inscriptions se font sur invitation. Pour demander un accès, contactez l'administrateur :",
+    text: "Soumettez votre profil ci-dessous pour examen par notre équipe. Vous serez contacté·e après validation.",
+  },
+  signupForm: {
+    displayName: "Nom de scène",
+    category: "Catégorie",
+    country: "Pays",
+    city: "Ville",
+    email: "Email de contact",
+    phone: "Téléphone (optionnel)",
+    headline: "Courte présentation (optionnel)",
+    avatar: "Photo de profil",
+    gallery: "Photos additionnelles (optionnel)",
+    uploadHint: (mb: number) => `JPG, PNG ou WebP, ${mb} Mo max.`,
+    submit: "Envoyer la demande",
+    submitting: "Envoi…",
+    successTitle: "Demande envoyée",
+    successText:
+      "Merci ! Votre demande a été transmise à notre équipe. Vous serez contacté·e après examen de votre profil.",
+    missingRequired:
+      "Veuillez remplir tous les champs obligatoires et ajouter une photo de profil.",
+    errorGeneric: "Une erreur est survenue, veuillez réessayer.",
+    orEmail: "Vous préférez nous écrire directement ?",
+    close: "Fermer",
   },
   footer: {
     legal: "Mentions légales",

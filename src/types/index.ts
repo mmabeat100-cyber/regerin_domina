@@ -14,7 +14,7 @@ export interface Profile {
   displayName: string;
   category: string; // catalog id
   studioId?: string;
-  status: "draft" | "published";
+  status: "draft" | "published" | "pending";
   verified: boolean;
   vip: boolean;
   featured: boolean;
@@ -37,7 +37,13 @@ export interface Profile {
   address?: { street?: string; zip?: string; city?: string; countryCode?: string };
   price: { perHour: number; currency: Currency };
   specialOffers: { label: string; duration: string; price: number }[];
-  contact: { phone?: string; whatsapp?: string; email?: string; website?: string; instagram?: string };
+  contact: {
+    phone?: string;
+    whatsapp?: string;
+    email?: string;
+    website?: string;
+    instagram?: string;
+  };
   headline: string;
   descriptionFr: string;
   descriptionEn: string;
