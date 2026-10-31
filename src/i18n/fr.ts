@@ -193,6 +193,7 @@ export const fr = {
   },
   admin: {
     dashboard: "Tableau de bord",
+    requests: "Demandes",
     profiles: "Profils",
     studios: "Studios",
     geo: "Pays & villes",

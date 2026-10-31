@@ -46,12 +46,11 @@ export const Route = createFileRoute("/admin/profils/")({
 const ALL = "__all";
 
 const statusBadge: Record<
-  Profile["status"],
-  { label: string; variant: "secondary" | "outline" | "gold" }
+  Exclude<Profile["status"], "pending">,
+  { label: string; variant: "secondary" | "outline" }
 > = {
   published: { label: "Publié", variant: "secondary" },
   draft: { label: "Brouillon", variant: "outline" },
-  pending: { label: "En attente", variant: "gold" },
 };
 
 function onErr(e: unknown) {
@@ -59,7 +58,8 @@ function onErr(e: unknown) {
 }
 
 function ProfilesList() {
-  const profiles = useAllProfiles();
+  // Pending signup requests live on their own page (/admin/demandes).
+  const profiles = useAllProfiles().filter((p) => p.status !== "pending");
   const categories = useCatalog("category");
   const label = useCatalogLabel();
   const countries = useCountries();
@@ -69,11 +69,6 @@ function ProfilesList() {
   const [status, setStatus] = useState(ALL);
   const [selected, setSelected] = useState<string[]>([]);
   const [toDelete, setToDelete] = useState<string[] | null>(null);
-
-  const pendingCount = useMemo(
-    () => profiles.filter((p) => p.status === "pending").length,
-    [profiles],
-  );
 
   const list = useMemo(
     () =>
@@ -94,7 +89,7 @@ function ProfilesList() {
     <>
       <AdminHeader
         title={fr.admin.profiles}
-        subtitle={`${profiles.length} profils au total${pendingCount ? ` · ${pendingCount} en attente de validation` : ""}`}
+        subtitle={`${profiles.length} profils au total`}
         actions={
           <Button asChild variant="velvet">
             <Link to="/admin/profils/nouveau">
@@ -146,7 +141,6 @@ function ProfilesList() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={ALL}>Tous statuts</SelectItem>
-            <SelectItem value="pending">En attente</SelectItem>
             <SelectItem value="published">Publié</SelectItem>
             <SelectItem value="draft">Brouillon</SelectItem>
           </SelectContent>
@@ -269,8 +263,8 @@ function ProfilesList() {
                   {p.price.perHour} {p.price.currency}
                 </TableCell>
                 <TableCell>
-                  <Badge variant={statusBadge[p.status].variant}>
-                    {statusBadge[p.status].label}
+                  <Badge variant={statusBadge[p.status === "pending" ? "draft" : p.status].variant}>
+                    {statusBadge[p.status === "pending" ? "draft" : p.status].label}
                   </Badge>
                 </TableCell>
                 <TableCell>

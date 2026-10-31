@@ -190,6 +190,7 @@ export const en = {
   },
   admin: {
     dashboard: "Dashboard",
+    requests: "Requests",
     profiles: "Profiles",
     studios: "Studios",
     geo: "Countries & cities",

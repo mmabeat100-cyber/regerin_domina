@@ -8,6 +8,7 @@ import {
   Compass,
   Eye,
   EyeOff,
+  Inbox,
   LayoutDashboard,
   LogOut,
   Map,
@@ -18,6 +19,7 @@ import {
 } from "lucide-react";
 import { useStoreHydrated } from "@/hooks/use-store-hydrated";
 import { supabase } from "@/integrations/supabase/client";
+import { useAllProfiles } from "@/services/profiles";
 import { SITE } from "@/config/site";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/components/ui/button";
@@ -41,6 +43,7 @@ export const Route = createFileRoute("/admin")({
 
 const nav = [
   { to: "/admin", label: fr.admin.dashboard, icon: LayoutDashboard, exact: true },
+  { to: "/admin/demandes", label: fr.admin.requests, icon: Inbox },
   { to: "/admin/profils", label: fr.admin.profiles, icon: Users },
   { to: "/admin/studios", label: fr.admin.studios, icon: Building2 },
   { to: "/admin/pays", label: fr.admin.geo, icon: Map },
@@ -143,6 +146,7 @@ function AccessDenied({ onSignOut }: { onSignOut: () => void }) {
 
 function SideNav({ onNavigate }: { onNavigate?: () => void }) {
   const navigate = useNavigate();
+  const requestsCount = useAllProfiles().filter((p) => p.status === "pending").length;
   return (
     <div className="flex h-full flex-col">
       <Link to="/admin" className="flex items-center gap-2 px-2 py-4" onClick={onNavigate}>
@@ -160,6 +164,11 @@ function SideNav({ onNavigate }: { onNavigate?: () => void }) {
             activeProps={{ className: "bg-sidebar-accent text-foreground" }}
           >
             <n.icon className="h-4 w-4" /> {n.label}
+            {n.to === "/admin/demandes" && requestsCount > 0 && (
+              <span className="ml-auto rounded-full bg-gold px-1.5 py-0.5 text-[10px] font-medium leading-none text-gold-foreground">
+                {requestsCount}
+              </span>
+            )}
           </Link>
         ))}
       </nav>

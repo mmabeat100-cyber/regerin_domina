@@ -195,6 +195,7 @@ export const de = {
   },
   admin: {
     dashboard: "Dashboard",
+    requests: "Anfragen",
     profiles: "Profile",
     studios: "Studios",
     geo: "Länder & Städte",

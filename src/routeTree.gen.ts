@@ -23,6 +23,7 @@ import { Route as SiteVillesRouteImport } from './routes/_site.villes'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAvisRouteImport } from './routes/admin.avis'
 import { Route as AdminCataloguesRouteImport } from './routes/admin.catalogues'
+import { Route as AdminDemandesRouteImport } from './routes/admin.demandes'
 import { Route as AdminParametresRouteImport } from './routes/admin.parametres'
 import { Route as AdminPaysRouteImport } from './routes/admin.pays'
 import { Route as AdminStudiosRouteImport } from './routes/admin.studios'
@@ -105,6 +106,11 @@ const AdminCataloguesRoute = AdminCataloguesRouteImport.update({
   path: '/catalogues',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDemandesRoute = AdminDemandesRouteImport.update({
+  id: '/demandes',
+  path: '/demandes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminParametresRoute = AdminParametresRouteImport.update({
   id: '/parametres',
   path: '/parametres',
@@ -174,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/villes': typeof SiteVillesRoute
   '/admin/avis': typeof AdminAvisRoute
   '/admin/catalogues': typeof AdminCataloguesRoute
+  '/admin/demandes': typeof AdminDemandesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/pays': typeof AdminPaysRoute
   '/admin/studios': typeof AdminStudiosRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/villes': typeof SiteVillesRoute
   '/admin/avis': typeof AdminAvisRoute
   '/admin/catalogues': typeof AdminCataloguesRoute
+  '/admin/demandes': typeof AdminDemandesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/pays': typeof AdminPaysRoute
   '/admin/studios': typeof AdminStudiosRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/_site/villes': typeof SiteVillesRoute
   '/admin/avis': typeof AdminAvisRoute
   '/admin/catalogues': typeof AdminCataloguesRoute
+  '/admin/demandes': typeof AdminDemandesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/pays': typeof AdminPaysRoute
   '/admin/studios': typeof AdminStudiosRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/villes'
     | '/admin/avis'
     | '/admin/catalogues'
+    | '/admin/demandes'
     | '/admin/parametres'
     | '/admin/pays'
     | '/admin/studios'
@@ -279,6 +289,7 @@ export interface FileRouteTypes {
     | '/villes'
     | '/admin/avis'
     | '/admin/catalogues'
+    | '/admin/demandes'
     | '/admin/parametres'
     | '/admin/pays'
     | '/admin/studios'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/_site/villes'
     | '/admin/avis'
     | '/admin/catalogues'
+    | '/admin/demandes'
     | '/admin/parametres'
     | '/admin/pays'
     | '/admin/studios'
@@ -424,6 +436,13 @@ declare module '@tanstack/react-router' {
       path: '/catalogues'
       fullPath: '/admin/catalogues'
       preLoaderRoute: typeof AdminCataloguesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/demandes': {
+      id: '/admin/demandes'
+      path: '/demandes'
+      fullPath: '/admin/demandes'
+      preLoaderRoute: typeof AdminDemandesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/parametres': {
@@ -545,6 +564,7 @@ const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 interface AdminRouteChildren {
   AdminAvisRoute: typeof AdminAvisRoute
   AdminCataloguesRoute: typeof AdminCataloguesRoute
+  AdminDemandesRoute: typeof AdminDemandesRoute
   AdminParametresRoute: typeof AdminParametresRoute
   AdminPaysRoute: typeof AdminPaysRoute
   AdminStudiosRoute: typeof AdminStudiosRoute
@@ -557,6 +577,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAvisRoute: AdminAvisRoute,
   AdminCataloguesRoute: AdminCataloguesRoute,
+  AdminDemandesRoute: AdminDemandesRoute,
   AdminParametresRoute: AdminParametresRoute,
   AdminPaysRoute: AdminPaysRoute,
   AdminStudiosRoute: AdminStudiosRoute,
