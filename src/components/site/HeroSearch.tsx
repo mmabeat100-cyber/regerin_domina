@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCatalog } from "@/services/catalogs";
+import { useCatalogT as useCatalog } from "@/services/catalogs";
 import { useCountries } from "@/services/geo";
 import { useT } from "@/i18n";
 

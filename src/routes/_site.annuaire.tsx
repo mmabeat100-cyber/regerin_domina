@@ -18,7 +18,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { filterProfiles, type DirectoryFilters } from "@/lib/filter";
 import { usePublishedProfiles } from "@/services/profiles";
 import { useCountries, cityName } from "@/services/geo";
-import { useCatalogLabel } from "@/services/catalogs";
+import { useCatalogLabelT as useCatalogLabel } from "@/services/catalogs";
 import { useT, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
 

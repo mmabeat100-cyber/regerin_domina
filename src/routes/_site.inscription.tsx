@@ -6,7 +6,7 @@ import { useT, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
 import { supabase } from "@/integrations/supabase/client";
 import { pendingProfile, profileService } from "@/services/profiles";
-import { useCatalog } from "@/services/catalogs";
+import { useCatalogT as useCatalog } from "@/services/catalogs";
 import { useCountries } from "@/services/geo";
 import { slugify } from "@/data/profiles";
 import { ACCEPTED, MAX_IMAGE_MB, processImage } from "@/lib/image";

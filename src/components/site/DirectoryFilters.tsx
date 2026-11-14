@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCatalog } from "@/services/catalogs";
+import { useCatalogT as useCatalog } from "@/services/catalogs";
 import { useCountries } from "@/services/geo";
 import { useT } from "@/i18n";
 import { PRICE_MAX, PRICE_MIN, type DirectoryFilters } from "@/lib/filter";

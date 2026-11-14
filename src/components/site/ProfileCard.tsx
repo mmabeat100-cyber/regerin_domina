@@ -6,7 +6,7 @@ import { StarRating } from "./StarRating";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useT } from "@/i18n";
-import { useCatalogLabel } from "@/services/catalogs";
+import { useCatalogLabelT as useCatalogLabel } from "@/services/catalogs";
 import { useCountries, cityName } from "@/services/geo";
 import { useStudios } from "@/services/studios";
 

@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/dialog";
 import { useProfileBySlug, usePublishedProfiles } from "@/services/profiles";
 import { useCountries, cityName } from "@/services/geo";
-import { useCatalogLabel } from "@/services/catalogs";
+import { useCatalogLabelT as useCatalogLabel } from "@/services/catalogs";
 import { useStudios } from "@/services/studios";
 import { seedProfiles } from "@/data/profiles";
 import { useT, useLocale, useLocaleStore, locales } from "@/i18n";
