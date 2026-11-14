@@ -1,4 +1,4 @@
-# Roadmap Ringerin Domina
+# Roadmap Wrestlers Domina
 - [x] Design system, données démo, store, services
 - [x] Accueil, annuaire avec filtres
 - [x] Fiche profil

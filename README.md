@@ -1,4 +1,4 @@
-# Ringerin Domina — annuaire premium (front-end démo)
+# Wrestlers Domina — annuaire premium (front-end démo)
 
 Données mock (`src/data`) gérées par un store Zustand persisté dans localStorage. Couche d'accès : `src/services/*` (point de branchement futur d'une base de données).
 

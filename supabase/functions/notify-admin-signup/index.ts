@@ -42,7 +42,7 @@ Deno.serve(async (req: Request) => {
         to: ADMIN_EMAIL,
         subject: `Nouvelle demande d'inscription : ${displayName ?? "—"}`,
         html: `
-          <p>Une nouvelle demande d'inscription a été soumise sur Ringerin Domina.</p>
+          <p>Une nouvelle demande d'inscription a été soumise sur Wrestlers Domina.</p>
           <ul>
             <li><strong>Nom :</strong> ${displayName ?? "—"}</li>
             <li><strong>Ville :</strong> ${city ?? "—"}</li>
