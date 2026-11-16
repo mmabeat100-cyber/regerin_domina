@@ -233,25 +233,29 @@ export function ProfileForm({ initial, isNew }: { initial: Profile; isNew?: bool
     const slug = slugify(name);
     const exists = countries.some((c) => c.cities.some((x) => x.slug === slug));
     if (!exists) {
-      geoService.saveCountries(
-        countries.map((c) =>
-          c.code === code
-            ? {
-                ...c,
-                cities: [
-                  ...c.cities,
-                  {
-                    slug,
-                    name,
-                    countryCode: code,
-                    popular: false,
-                    seoText: `Dominas et studios à ${name}.`,
-                  },
-                ],
-              }
-            : c,
-        ),
-      );
+      geoService
+        .saveCountries(
+          countries.map((c) =>
+            c.code === code
+              ? {
+                  ...c,
+                  cities: [
+                    ...c.cities,
+                    {
+                      slug,
+                      name,
+                      countryCode: code,
+                      popular: false,
+                      seoText: `Dominas et studios à ${name}.`,
+                    },
+                  ],
+                }
+              : c,
+          ),
+        )
+        .catch((e) =>
+          toast.error(e instanceof Error ? e.message : "Échec de l'ajout de la ville."),
+        );
     }
     updateAvail(code, (a) => ({
       ...a,
