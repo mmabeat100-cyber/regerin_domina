@@ -134,10 +134,16 @@ export function ReviewsSection({ profile }: { profile: Profile }) {
             onSubmit={(e) => {
               e.preventDefault();
               if (comment.trim().length < 10) return toast.error(t.reviewsDialog.commentTooShort);
-              reviewService.add(profile.id, visitor?.name ?? "Anonymous", rating, comment.trim());
-              setComment("");
-              setFormOpen(false);
-              toast.success(t.profile.pending);
+              reviewService
+                .add(profile.id, visitor?.name ?? "Anonymous", rating, comment.trim())
+                .then(() => {
+                  setComment("");
+                  setFormOpen(false);
+                  toast.success(t.profile.pending);
+                })
+                .catch((err) =>
+                  toast.error(err instanceof Error ? err.message : t.signupForm.errorGeneric),
+                );
             }}
             className="space-y-4"
           >

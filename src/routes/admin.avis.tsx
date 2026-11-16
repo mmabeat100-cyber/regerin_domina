@@ -13,7 +13,11 @@ import { useAllProfiles } from "@/services/profiles";
 
 export const Route = createFileRoute("/admin/avis")({ component: AdminReviews });
 
-const LABEL: Record<Review["status"], string> = { pending: "En attente", approved: "Approuvé", rejected: "Refusé" };
+const LABEL: Record<Review["status"], string> = {
+  pending: "En attente",
+  approved: "Approuvé",
+  rejected: "Refusé",
+};
 
 function AdminReviews() {
   const reviews = useReviews();
@@ -22,11 +26,23 @@ function AdminReviews() {
   const list = reviews.filter((r) => tab === "all" || r.status === tab);
   return (
     <>
-      <AdminHeader title="Avis" subtitle={`${reviews.filter((r) => r.status === "pending").length} en attente de modération`} />
+      <AdminHeader
+        title="Avis"
+        subtitle={`${reviews.filter((r) => r.status === "pending").length} en attente de modération`}
+      />
       <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)} className="mb-4">
-        <TabsList><TabsTrigger value="pending">En attente</TabsTrigger><TabsTrigger value="approved">Approuvés</TabsTrigger><TabsTrigger value="rejected">Refusés</TabsTrigger><TabsTrigger value="all">Tous</TabsTrigger></TabsList>
+        <TabsList>
+          <TabsTrigger value="pending">En attente</TabsTrigger>
+          <TabsTrigger value="approved">Approuvés</TabsTrigger>
+          <TabsTrigger value="rejected">Refusés</TabsTrigger>
+          <TabsTrigger value="all">Tous</TabsTrigger>
+        </TabsList>
       </Tabs>
-      {list.length === 0 && <p className="rounded-lg border border-dashed border-border p-10 text-center text-muted-foreground">Aucun avis</p>}
+      {list.length === 0 && (
+        <p className="rounded-lg border border-dashed border-border p-10 text-center text-muted-foreground">
+          Aucun avis
+        </p>
+      )}
       <ul className="space-y-3">
         {list.map((r) => {
           const p = profiles.find((x) => x.id === r.profileId);
@@ -35,15 +51,64 @@ function AdminReviews() {
               <div className="flex flex-wrap items-center gap-2 text-sm">
                 <span className="font-medium">{r.authorName}</span>
                 <span className="text-muted-foreground">sur</span>
-                {p ? <Link to="/admin/profils/$id" params={{ id: p.id }} className="text-gold hover:underline">{p.displayName}</Link> : "—"}
+                {p ? (
+                  <Link
+                    to="/admin/profils/$id"
+                    params={{ id: p.id }}
+                    className="text-gold hover:underline"
+                  >
+                    {p.displayName}
+                  </Link>
+                ) : (
+                  "—"
+                )}
                 <StarRating value={r.rating} size={12} />
-                <Badge variant="outline" className="ml-auto">{LABEL[r.status]}</Badge>
+                <Badge variant="outline" className="ml-auto">
+                  {LABEL[r.status]}
+                </Badge>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">{r.comment}</p>
               <div className="mt-3 flex gap-2">
-                {r.status !== "approved" && <Button size="sm" variant="velvet" onClick={() => { reviewService.setStatus(r.id, "approved"); toast.success("Avis approuvé"); }}><Check /> Approuver</Button>}
-                {r.status !== "rejected" && <Button size="sm" variant="outline" onClick={() => { reviewService.setStatus(r.id, "rejected"); toast.success("Avis refusé"); }}><X /> Refuser</Button>}
-                <Button size="sm" variant="ghost" onClick={() => { reviewService.remove(r.id); toast.success("Avis supprimé"); }}><Trash2 /> Supprimer</Button>
+                {r.status !== "approved" && (
+                  <Button
+                    size="sm"
+                    variant="velvet"
+                    onClick={() =>
+                      reviewService
+                        .setStatus(r.id, "approved")
+                        .then(() => toast.success("Avis approuvé"))
+                        .catch((e) => toast.error(e instanceof Error ? e.message : "Échec."))
+                    }
+                  >
+                    <Check /> Approuver
+                  </Button>
+                )}
+                {r.status !== "rejected" && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      reviewService
+                        .setStatus(r.id, "rejected")
+                        .then(() => toast.success("Avis refusé"))
+                        .catch((e) => toast.error(e instanceof Error ? e.message : "Échec."))
+                    }
+                  >
+                    <X /> Refuser
+                  </Button>
+                )}
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() =>
+                    reviewService
+                      .remove(r.id)
+                      .then(() => toast.success("Avis supprimé"))
+                      .catch((e) => toast.error(e instanceof Error ? e.message : "Échec."))
+                  }
+                >
+                  <Trash2 /> Supprimer
+                </Button>
               </div>
             </li>
           );
