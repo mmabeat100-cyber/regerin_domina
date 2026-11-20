@@ -35,6 +35,7 @@ import { useStudios } from "@/services/studios";
 import { seedProfiles } from "@/data/profiles";
 import { useT, useLocale, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
+import { pageHead } from "@/lib/seo";
 import type { Profile } from "@/types";
 
 export const Route = createFileRoute("/_site/profil/$slug")({
@@ -45,15 +46,12 @@ export const Route = createFileRoute("/_site/profil/$slug")({
     const desc = p
       ? t.profile.metaDescription(p.displayName, p.headline)
       : t.profile.metaFallbackDescription;
-    return {
-      meta: [
-        { title: `${name} — ${SITE.name}` },
-        { name: "description", content: desc },
-        { property: "og:title", content: `${name} — ${SITE.name}` },
-        { property: "og:description", content: desc },
-        { property: "og:type", content: "profile" },
-      ],
-    };
+    return pageHead({
+      title: `${name} — ${SITE.name}`,
+      description: desc,
+      path: `/profil/${params.slug}`,
+      type: "profile",
+    });
   },
   component: ProfilePage,
 });
@@ -152,6 +150,12 @@ function ProfilePage() {
   if (!p) {
     return (
       <div className="container-site py-20">
+        {/* React 19 hoists title/meta rendered anywhere in the tree into <head> —
+            this reflects live data (unlike the build-time head(), which can only
+            guess from params), so a genuinely missing/unpublished profile is
+            correctly kept out of the index. */}
+        <title>{`${t.profile.notFoundTitle} — ${SITE.name}`}</title>
+        <meta name="robots" content="noindex, nofollow" />
         <EmptyState
           title={t.profile.notFoundTitle}
           text={t.profile.notFoundText}
@@ -189,22 +193,31 @@ function ProfilePage() {
     [t.profile.servesFor, p.servesFor.map((s) => t.servesFor[s]).join(", ") || "—"],
   ];
   const firstCountry = countries.find((c) => c.code === p.availability[0]?.countryCode);
+  // ProfilePage/Person rather than LocalBusiness: this describes a person's
+  // profile and the service they personally offer, not a registered business.
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: p.displayName,
-    description: p.headline,
-    priceRange: `${p.price.perHour} ${p.price.currency}`,
-    areaServed: cities.map((c) => cityName(countries, c)),
-    ...(p.rating.count
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: p.rating.average,
-            reviewCount: p.rating.count,
-          },
-        }
-      : {}),
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: p.displayName,
+      description: p.headline,
+      ...(p.rating.count
+        ? {
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: p.rating.average,
+              reviewCount: p.rating.count,
+            },
+          }
+        : {}),
+      makesOffer: {
+        "@type": "Offer",
+        priceCurrency: p.price.currency,
+        price: p.price.perHour,
+        areaServed: cities.map((c) => cityName(countries, c)),
+      },
+    },
   };
 
   return (

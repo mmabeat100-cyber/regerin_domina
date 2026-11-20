@@ -10,6 +10,7 @@ import { useCatalogT as useCatalog } from "@/services/catalogs";
 import { useCountries } from "@/services/geo";
 import { slugify } from "@/data/profiles";
 import { ACCEPTED, MAX_IMAGE_MB, processImage } from "@/lib/image";
+import { pageHead } from "@/lib/seo";
 import { PageHeader } from "@/components/site/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,13 +30,12 @@ const GALLERY_LIMIT = 4;
 export const Route = createFileRoute("/_site/inscription")({
   head: () => {
     const t = locales[useLocaleStore.getState().locale];
-    return {
-      meta: [
-        { title: `${t.signup.title} — ${SITE.name}` },
-        { name: "description", content: t.signup.text },
-        { name: "robots", content: "noindex" },
-      ],
-    };
+    return pageHead({
+      title: `${t.signup.title} — ${SITE.name}`,
+      description: t.signup.text,
+      path: "/inscription",
+      noindex: true,
+    });
   },
   component: SignupPage,
 });

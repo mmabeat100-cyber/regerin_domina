@@ -2,6 +2,8 @@
 export const SITE = {
   name: "Wrestlers Domina",
   slogan: "Votre guide discret",
+  /** Absolute origin, no trailing slash — used for canonical/OG/sitemap URLs. */
+  url: "https://wrestlersdomina.com",
   exitUrl: "https://www.google.com",
   contactEmail: "contact@wrestlersdomina.example",
   /** Identifiant affiché sur le login admin, mappé en interne vers l'email réel du compte Supabase Auth. */

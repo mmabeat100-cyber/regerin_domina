@@ -7,6 +7,7 @@ export const Route = createFileRoute("/_site/a-propos")({
     legalMeta(
       `À propos — ${SITE.name}`,
       `${SITE.name} est un guide discret et éditorialisé : seule notre équipe ajoute et vérifie les profils.`,
+      "/a-propos",
     ),
   component: () => (
     <LegalPage

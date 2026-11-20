@@ -1,6 +1,15 @@
 import { PageHeader } from "./Breadcrumbs";
+import { pageHead } from "@/lib/seo";
 
-export function LegalPage({ eyebrow, title, sections }: { eyebrow: string; title: string; sections: { h: string; p: string }[] }) {
+export function LegalPage({
+  eyebrow,
+  title,
+  sections,
+}: {
+  eyebrow: string;
+  title: string;
+  sections: { h: string; p: string }[];
+}) {
   return (
     <div className="container-site max-w-3xl">
       <PageHeader eyebrow={eyebrow} title={title} />
@@ -16,11 +25,5 @@ export function LegalPage({ eyebrow, title, sections }: { eyebrow: string; title
   );
 }
 
-export const legalMeta = (title: string, description: string) => ({
-  meta: [
-    { title },
-    { name: "description", content: description },
-    { property: "og:title", content: title },
-    { property: "og:description", content: description },
-  ],
-});
+export const legalMeta = (title: string, description: string, path: string) =>
+  pageHead({ title, description, path });

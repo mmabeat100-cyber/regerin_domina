@@ -27,6 +27,7 @@ import { Route as AdminDemandesRouteImport } from './routes/admin.demandes'
 import { Route as AdminParametresRouteImport } from './routes/admin.parametres'
 import { Route as AdminPaysRouteImport } from './routes/admin.pays'
 import { Route as AdminStudiosRouteImport } from './routes/admin.studios'
+import { Route as SiteCategorieSlugRouteImport } from './routes/_site.categorie.$slug'
 import { Route as SitePaysCountryRouteImport } from './routes/_site.pays.$country'
 import { Route as SiteProfilSlugRouteImport } from './routes/_site.profil.$slug'
 import { Route as SiteStudiosIndexRouteImport } from './routes/_site.studios.index'
@@ -126,6 +127,11 @@ const AdminStudiosRoute = AdminStudiosRouteImport.update({
   path: '/studios',
   getParentRoute: () => AdminRoute,
 } as any)
+const SiteCategorieSlugRoute = SiteCategorieSlugRouteImport.update({
+  id: '/categorie/$slug',
+  path: '/categorie/$slug',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SitePaysCountryRoute = SitePaysCountryRouteImport.update({
   id: '/pays/$country',
   path: '/pays/$country',
@@ -185,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/admin/pays': typeof AdminPaysRoute
   '/admin/studios': typeof AdminStudiosRoute
   '/admin/': typeof AdminIndexRoute
+  '/categorie/$slug': typeof SiteCategorieSlugRoute
   '/pays/$country': typeof SitePaysCountryRoute
   '/profil/$slug': typeof SiteProfilSlugRoute
   '/studios/$slug': typeof SiteStudiosSlugRoute
@@ -211,6 +218,7 @@ export interface FileRoutesByTo {
   '/admin/studios': typeof AdminStudiosRoute
   '/': typeof SiteIndexRoute
   '/admin': typeof AdminIndexRoute
+  '/categorie/$slug': typeof SiteCategorieSlugRoute
   '/pays/$country': typeof SitePaysCountryRoute
   '/profil/$slug': typeof SiteProfilSlugRoute
   '/studios/$slug': typeof SiteStudiosSlugRoute
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/admin/studios': typeof AdminStudiosRoute
   '/_site/': typeof SiteIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/_site/categorie/$slug': typeof SiteCategorieSlugRoute
   '/_site/pays/$country': typeof SitePaysCountryRoute
   '/_site/profil/$slug': typeof SiteProfilSlugRoute
   '/_site/studios/$slug': typeof SiteStudiosSlugRoute
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/admin/pays'
     | '/admin/studios'
     | '/admin/'
+    | '/categorie/$slug'
     | '/pays/$country'
     | '/profil/$slug'
     | '/studios/$slug'
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/admin/studios'
     | '/'
     | '/admin'
+    | '/categorie/$slug'
     | '/pays/$country'
     | '/profil/$slug'
     | '/studios/$slug'
@@ -323,6 +334,7 @@ export interface FileRouteTypes {
     | '/admin/studios'
     | '/_site/'
     | '/admin/'
+    | '/_site/categorie/$slug'
     | '/_site/pays/$country'
     | '/_site/profil/$slug'
     | '/_site/studios/$slug'
@@ -466,6 +478,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminStudiosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_site/categorie/$slug': {
+      id: '/_site/categorie/$slug'
+      path: '/categorie/$slug'
+      fullPath: '/categorie/$slug'
+      preLoaderRoute: typeof SiteCategorieSlugRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/pays/$country': {
       id: '/_site/pays/$country'
       path: '/pays/$country'
@@ -535,6 +554,7 @@ interface SiteRouteChildren {
   SiteProtectionDesMineursRoute: typeof SiteProtectionDesMineursRoute
   SiteVillesRoute: typeof SiteVillesRoute
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteCategorieSlugRoute: typeof SiteCategorieSlugRoute
   SitePaysCountryRoute: typeof SitePaysCountryRoute
   SiteProfilSlugRoute: typeof SiteProfilSlugRoute
   SiteStudiosSlugRoute: typeof SiteStudiosSlugRoute
@@ -552,6 +572,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteProtectionDesMineursRoute: SiteProtectionDesMineursRoute,
   SiteVillesRoute: SiteVillesRoute,
   SiteIndexRoute: SiteIndexRoute,
+  SiteCategorieSlugRoute: SiteCategorieSlugRoute,
   SitePaysCountryRoute: SitePaysCountryRoute,
   SiteProfilSlugRoute: SiteProfilSlugRoute,
   SiteStudiosSlugRoute: SiteStudiosSlugRoute,

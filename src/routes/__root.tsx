@@ -17,6 +17,8 @@ import { useStore } from "@/store/useStore";
 import { AgeGate } from "@/components/site/AgeGate";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE } from "@/config/site";
+import { useLocale } from "@/i18n";
+import { jsonLdProps } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -25,9 +27,14 @@ function NotFoundComponent() {
         <Compass className="mx-auto h-12 w-12 text-gold" aria-hidden />
         <h1 className="mt-6 font-serif text-8xl text-gold-gradient">404</h1>
         <h2 className="mt-4 text-3xl">Cette page s'est égarée</h2>
-        <p className="mt-2 text-sm text-muted-foreground">La boussole ne trouve pas cette adresse. Elle a peut-être été déplacée.</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          La boussole ne trouve pas cette adresse. Elle a peut-être été déplacée.
+        </p>
         <div className="mt-8">
-          <Link to="/" className="inline-flex items-center justify-center rounded-md bg-velvet px-6 py-2.5 text-sm font-medium text-primary-foreground">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-md bg-velvet px-6 py-2.5 text-sm font-medium text-primary-foreground"
+          >
             Retour à l'accueil
           </Link>
         </div>
@@ -47,7 +54,9 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-3xl text-foreground">Cette page n'a pas pu se charger</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Une erreur est survenue. Réessayez ou revenez à l'accueil.</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Une erreur est survenue. Réessayez ou revenez à l'accueil.
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -58,7 +67,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
           >
             Réessayer
           </button>
-          <a href="/" className="inline-flex items-center justify-center rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground hover:bg-accent">
+          <a
+            href="/"
+            className="inline-flex items-center justify-center rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+          >
             Accueil
           </a>
         </div>
@@ -73,9 +85,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: `${SITE.name} — ${SITE.slogan}` },
-      { name: "description", content: "Annuaire premium et discret de dominas, bizarrladies et studios." },
+      {
+        name: "description",
+        content: "Annuaire premium et discret de dominas, bizarrladies et studios.",
+      },
       { name: "rating", content: "adult" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE.name },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -95,8 +111,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const locale = useLocale();
   return (
-    <html lang="fr">
+    <html lang={locale}>
       <head>
         <HeadContent />
       </head>
@@ -118,6 +135,22 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <script
+        {...jsonLdProps({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE.name,
+          url: SITE.url,
+        })}
+      />
+      <script
+        {...jsonLdProps({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: SITE.name,
+          url: SITE.url,
+        })}
+      />
       <Outlet />
       <AgeGate hydrated={hydrated} />
       <Toaster />

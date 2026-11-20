@@ -7,6 +7,7 @@ export const Route = createFileRoute("/_site/contact")({
     legalMeta(
       `Contact — ${SITE.name}`,
       `Pour toute question, écrivez à l'équipe éditoriale : ${SITE.contactEmail}.`,
+      "/contact",
     ),
   component: () => (
     <LegalPage

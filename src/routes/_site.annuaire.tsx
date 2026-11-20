@@ -21,6 +21,7 @@ import { useCountries, cityName } from "@/services/geo";
 import { useCatalogLabelT as useCatalogLabel } from "@/services/catalogs";
 import { useT, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
+import { pageHead } from "@/lib/seo";
 
 const arr = (v: unknown) =>
   Array.isArray(v) ? v.map(String) : typeof v === "string" && v ? v.split(",") : undefined;
@@ -46,14 +47,13 @@ export const Route = createFileRoute("/_site/annuaire")({
   }),
   head: () => {
     const t = locales[useLocaleStore.getState().locale];
-    return {
-      meta: [
-        { title: `${t.directory.metaTitle} — ${SITE.name}` },
-        { name: "description", content: t.directory.metaDescription },
-        { property: "og:title", content: `${t.directory.metaTitle} — ${SITE.name}` },
-        { property: "og:description", content: t.directory.metaDescription },
-      ],
-    };
+    // Canonical always points at the clean /annuaire URL regardless of active
+    // filters, so filtered query-string variants don't read as duplicate content.
+    return pageHead({
+      title: `${t.directory.metaTitle} — ${SITE.name}`,
+      description: t.directory.metaDescription,
+      path: "/annuaire",
+    });
   },
   component: Directory,
 });

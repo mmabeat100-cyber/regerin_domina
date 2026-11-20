@@ -3,12 +3,16 @@ import { ShieldAlert } from "lucide-react";
 import { Logo } from "./Logo";
 import { useT } from "@/i18n";
 import { SITE } from "@/config/site";
+import { useCatalog, useCatalogT } from "@/services/catalogs";
+import { slugify } from "@/data/profiles";
 
 export function Footer() {
   const t = useT();
+  const rawCategories = useCatalog("category");
+  const categories = useCatalogT("category");
   return (
     <footer className="mt-24 border-t border-border bg-card/40">
-      <div className="container-site grid gap-10 py-14 md:grid-cols-3">
+      <div className="container-site grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-3">
           <Logo />
           <p className="text-sm text-muted-foreground">{SITE.slogan}</p>
@@ -36,6 +40,20 @@ export function Footer() {
             {t.nav.cities}
           </Link>
         </nav>
+        {rawCategories.length > 0 && (
+          <nav aria-label="Catégories" className="space-y-2 text-sm">
+            {rawCategories.map((c) => (
+              <Link
+                key={c.id}
+                to="/categorie/$slug"
+                params={{ slug: slugify(c.label) }}
+                className="block text-muted-foreground hover:text-foreground"
+              >
+                {categories.find((x) => x.id === c.id)?.label ?? c.label}
+              </Link>
+            ))}
+          </nav>
+        )}
         <div className="space-y-3 text-xs text-muted-foreground">
           <p className="flex items-center gap-2 font-medium text-gold">
             <ShieldAlert className="h-4 w-4" aria-hidden /> {t.footer.adults}

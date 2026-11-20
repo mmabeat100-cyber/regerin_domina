@@ -14,18 +14,16 @@ import { usePublishedProfiles } from "@/services/profiles";
 import { useCountries } from "@/services/geo";
 import { useT, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_site/")({
   head: () => {
     const t = locales[useLocaleStore.getState().locale];
-    return {
-      meta: [
-        { title: `${SITE.name} — ${t.home.seoTitle}` },
-        { name: "description", content: t.home.seo },
-        { property: "og:title", content: `${SITE.name} — ${SITE.slogan}` },
-        { property: "og:description", content: t.home.seo },
-      ],
-    };
+    return pageHead({
+      title: `${SITE.name} — ${t.home.seoTitle}`,
+      description: t.home.seo,
+      path: "/",
+    });
   },
   component: Home,
 });
