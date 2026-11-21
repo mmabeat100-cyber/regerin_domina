@@ -53,7 +53,7 @@ export const en = {
   },
   home: {
     eyebrow: "Premium directory",
-    title: "The elegance of discretion",
+    title: "The Ultimate Destination for Female Wrestling & Domination",
     subtitle:
       "Dominas, bizarrladies and studios selected in France, Belgium, Switzerland and Luxembourg.",
     search: "Search",

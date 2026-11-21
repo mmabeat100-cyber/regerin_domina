@@ -54,7 +54,7 @@ export const fr = {
   },
   home: {
     eyebrow: "Annuaire premium",
-    title: "L'élégance de la discrétion",
+    title: "The Ultimate Destination for Female Wrestling & Domination",
     subtitle:
       "Dominas, bizarrladies et studios sélectionnés en France, Belgique, Suisse et Luxembourg.",
     search: "Rechercher",
