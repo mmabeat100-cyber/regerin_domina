@@ -20,8 +20,8 @@ export const Route = createFileRoute("/_site/")({
   head: () => {
     const t = locales[useLocaleStore.getState().locale];
     return pageHead({
-      title: `${SITE.name} — ${t.home.seoTitle}`,
-      description: t.home.seo,
+      title: t.home.metaTitle,
+      description: t.home.metaDescription,
       path: "/",
     });
   },

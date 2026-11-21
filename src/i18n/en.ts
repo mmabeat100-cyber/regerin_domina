@@ -53,9 +53,8 @@ export const en = {
   },
   home: {
     eyebrow: "Premium directory",
-    title: "The Ultimate Destination for Female Wrestling & Domination",
-    subtitle:
-      "Dominas, bizarrladies and studios selected in France, Belgium, Switzerland and Luxembourg.",
+    title: "The World's Ultimate Female Wrestling & Domination Platform",
+    subtitle: "Discover Female Wrestling, Athletic Fantasy and the World of Female Domination.",
     search: "Search",
     popularCountries: "Popular countries",
     popularCities: "Popular cities",
@@ -67,8 +66,11 @@ export const en = {
       { t: "Compare", d: "Check detailed profiles, rates and verified reviews." },
       { t: "Contact", d: "Get in touch directly, with no middleman." },
     ],
-    seoTitle: "A guide built for discretion",
-    seo: "Wrestlers Domina lists profiles carefully presented by our editorial team. No advertiser accounts, no internal messaging: browse freely, then contact the person of your choice directly by phone, WhatsApp or email.",
+    seoTitle: "The International Female Wrestling & Domination Directory",
+    seo: "Wrestlers Domina is an international directory dedicated to female wrestlers, dominatrices and athletic fantasy enthusiasts. Discover profiles of strong and athletic women, explore female wrestling, mixed wrestling, boxing, strength performances, domination and much more.",
+    metaTitle: "The World's Ultimate Female Wrestling & Domination Platform | Wrestlers Domina",
+    metaDescription:
+      "International directory of female wrestlers and dominatrices. Discover athletic women, female wrestling, mixed wrestling and domination profiles worldwide.",
     selection: "Selection",
     editorial: "Editorial",
     seeAll: "See all",
