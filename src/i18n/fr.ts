@@ -1,6 +1,7 @@
 /** Textes centralisés de l'interface — français. Utilisé aussi tel quel par le back-office (toujours en français). */
 export const fr = {
   dateLocale: "fr-FR",
+  slogan: "Votre guide discret",
   nav: {
     directory: "Annuaire",
     studios: "Studios",

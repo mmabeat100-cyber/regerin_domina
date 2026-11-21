@@ -17,7 +17,7 @@ import { useStore } from "@/store/useStore";
 import { AgeGate } from "@/components/site/AgeGate";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE } from "@/config/site";
-import { useLocale } from "@/i18n";
+import { useLocale, useLocaleStore, locales } from "@/i18n";
 import { jsonLdProps } from "@/lib/seo";
 
 function NotFoundComponent() {
@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: `${SITE.name} — ${SITE.slogan}` },
+      { title: `${SITE.name} — ${locales[useLocaleStore.getState().locale].slogan}` },
       {
         name: "description",
         content: "Annuaire premium et discret de dominas, bizarrladies et studios.",

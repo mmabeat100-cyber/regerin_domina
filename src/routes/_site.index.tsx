@@ -13,7 +13,6 @@ import {
 import { usePublishedProfiles } from "@/services/profiles";
 import { useCountries } from "@/services/geo";
 import { useT, useLocaleStore, locales } from "@/i18n";
-import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_site/")({
@@ -55,7 +54,7 @@ function Home() {
         <div className="container-site relative flex min-h-[78vh] flex-col justify-end pb-16 pt-32">
           <div className="max-w-3xl animate-fade-up">
             <p className="eyebrow">
-              {t.home.eyebrow} · {SITE.slogan}
+              {t.home.eyebrow} · {t.slogan}
             </p>
             <h1 className="mt-4 text-5xl leading-[1.05] sm:text-7xl">{t.home.title}</h1>
             <p className="mt-5 max-w-xl text-lg text-muted-foreground">{t.home.subtitle}</p>

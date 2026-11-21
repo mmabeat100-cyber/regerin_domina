@@ -15,7 +15,7 @@ export function Footer() {
       <div className="container-site grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-3">
           <Logo />
-          <p className="text-sm text-muted-foreground">{SITE.slogan}</p>
+          <p className="text-sm text-muted-foreground">{t.slogan}</p>
         </div>
         <nav aria-label="Legal links" className="grid grid-cols-2 gap-3 text-sm">
           <Link to="/mentions-legales" className="text-muted-foreground hover:text-foreground">

@@ -1,6 +1,7 @@
 /** English — default locale. Canonical shape that fr.ts and de.ts must match. */
 export const en = {
   dateLocale: "en-GB",
+  slogan: "Your discreet guide",
   nav: {
     directory: "Directory",
     studios: "Studios",

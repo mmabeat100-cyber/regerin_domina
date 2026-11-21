@@ -1,6 +1,7 @@
 /** Deutsch */
 export const de = {
   dateLocale: "de-DE",
+  slogan: "Ihr diskreter Guide",
   nav: {
     directory: "Verzeichnis",
     studios: "Studios",
