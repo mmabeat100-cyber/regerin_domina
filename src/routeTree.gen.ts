@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ShellRouteImport } from './routes/shell'
 import { Route as SiteIndexRouteImport } from './routes/_site.index'
 import { Route as SiteAProposRouteImport } from './routes/_site.a-propos'
 import { Route as SiteAnnuaireRouteImport } from './routes/_site.annuaire'
@@ -44,6 +45,11 @@ const SiteRoute = SiteRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShellRoute = ShellRouteImport.update({
+  id: '/shell',
+  path: '/shell',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SiteIndexRoute = SiteIndexRouteImport.update({
@@ -176,6 +182,7 @@ const SiteVilleCountryCityRoute = SiteVilleCountryCityRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/shell': typeof ShellRoute
   '/a-propos': typeof SiteAProposRoute
   '/annuaire': typeof SiteAnnuaireRoute
   '/confidentialite': typeof SiteConfidentialiteRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/ville/$country/$city': typeof SiteVilleCountryCityRoute
 }
 export interface FileRoutesByTo {
+  '/shell': typeof ShellRoute
   '/a-propos': typeof SiteAProposRoute
   '/annuaire': typeof SiteAnnuaireRoute
   '/confidentialite': typeof SiteConfidentialiteRoute
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
+  '/shell': typeof ShellRoute
   '/_site/a-propos': typeof SiteAProposRoute
   '/_site/annuaire': typeof SiteAnnuaireRoute
   '/_site/confidentialite': typeof SiteConfidentialiteRoute
@@ -263,6 +272,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/shell'
     | '/a-propos'
     | '/annuaire'
     | '/confidentialite'
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/ville/$country/$city'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/shell'
     | '/a-propos'
     | '/annuaire'
     | '/confidentialite'
@@ -318,6 +329,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_site'
     | '/admin'
+    | '/shell'
     | '/_site/a-propos'
     | '/_site/annuaire'
     | '/_site/confidentialite'
@@ -348,6 +360,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   SiteRoute: typeof SiteRouteWithChildren
   AdminRoute: typeof AdminRouteWithChildren
+  ShellRoute: typeof ShellRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -364,6 +377,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shell': {
+      id: '/shell'
+      path: '/shell'
+      fullPath: '/shell'
+      preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_site/': {
@@ -613,6 +633,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   SiteRoute: SiteRouteWithChildren,
   AdminRoute: AdminRouteWithChildren,
+  ShellRoute: ShellRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,39 +1,19 @@
-// Generates public/sitemap.xml by querying Supabase directly (REST API,
-// anon key — same credentials already used for the client build). Runs as a
-// prebuild step so the sitemap ships with every deploy, regardless of the
-// SPA's client-side rendering (crawlers don't need to execute JS to read it).
-//
-// Deliberately NOT derived from the prerender crawler: that only discovers
-// pages reachable via server-rendered <a href> links, and this app's lists
-// (profiles, cities, ...) are fetched client-side, so the crawler never sees
-// them. Querying Supabase directly sidesteps that limitation entirely.
+// Generates public/sitemap.xml from the shared route list (see
+// site-routes.mjs). Runs as a prebuild step so the sitemap ships with every
+// deploy, regardless of the SPA's client-side rendering (crawlers don't need
+// to execute JS to read it).
+
+import { STATIC_PATHS, slugify, getPublicRoutes } from "./site-routes.mjs";
 
 const SITE_URL = "https://wrestlersdomina.com";
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
 
-const slugify = (s) =>
-  s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-async function fetchTable(table, query) {
-  if (!SUPABASE_URL || !SUPABASE_KEY) {
-    console.warn(`[sitemap] Missing Supabase credentials, skipping "${table}" rows.`);
-    return [];
-  }
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-  });
-  if (!res.ok) {
-    console.warn(`[sitemap] Failed to fetch "${table}": ${res.status} ${res.statusText}`);
-    return [];
-  }
-  return res.json();
-}
+const STATIC_META = {
+  "/": { changefreq: "daily", priority: "1.0" },
+  "/annuaire": { changefreq: "daily", priority: "0.8" },
+  "/villes": { changefreq: "daily", priority: "0.8" },
+  "/studios": { changefreq: "daily", priority: "0.8" },
+};
+const DEFAULT_STATIC_META = { changefreq: "yearly", priority: "0.3" };
 
 function urlEntry(path, { lastmod, changefreq = "weekly", priority = "0.5" } = {}) {
   const loc = `${SITE_URL}${path}`;
@@ -52,39 +32,40 @@ function urlEntry(path, { lastmod, changefreq = "weekly", priority = "0.5" } = {
 async function main() {
   const entries = [];
 
-  entries.push(urlEntry("/", { changefreq: "daily", priority: "1.0" }));
-  for (const path of ["/annuaire", "/villes", "/studios"]) {
-    entries.push(urlEntry(path, { changefreq: "daily", priority: "0.8" }));
-  }
-  for (const path of ["/a-propos", "/contact", "/mentions-legales", "/confidentialite", "/protection-des-mineurs"]) {
-    entries.push(urlEntry(path, { changefreq: "yearly", priority: "0.3" }));
+  for (const path of STATIC_PATHS) {
+    if (path === "/inscription") continue; // noindex page, excluded from the sitemap
+    entries.push(urlEntry(path, STATIC_META[path] ?? DEFAULT_STATIC_META));
   }
 
-  const profiles = await fetchTable("listings", "select=slug,updated_at&status=eq.published");
+  const { profiles, countries, studios, categories } = await getPublicRoutes();
+
   for (const p of profiles) {
-    entries.push(urlEntry(`/profil/${p.slug}`, { lastmod: p.updated_at?.slice(0, 10), changefreq: "weekly", priority: "0.9" }));
+    entries.push(
+      urlEntry(`/profil/${p.slug}`, {
+        lastmod: p.updatedAt?.slice(0, 10),
+        changefreq: "weekly",
+        priority: "0.9",
+      }),
+    );
   }
 
-  const countries = await fetchTable("countries", "select=data");
-  for (const row of countries) {
-    const country = row.data;
-    if (!country?.slug) continue;
+  for (const country of countries) {
     entries.push(urlEntry(`/pays/${country.slug}`, { changefreq: "weekly", priority: "0.6" }));
-    for (const city of country.cities ?? []) {
-      entries.push(urlEntry(`/ville/${country.slug}/${city.slug}`, { changefreq: "weekly", priority: "0.6" }));
+    for (const city of country.cities) {
+      entries.push(
+        urlEntry(`/ville/${country.slug}/${city.slug}`, { changefreq: "weekly", priority: "0.6" }),
+      );
     }
   }
 
-  const studios = await fetchTable("studios", "select=data");
-  for (const row of studios) {
-    const studio = row.data;
-    if (!studio?.slug) continue;
+  for (const studio of studios) {
     entries.push(urlEntry(`/studios/${studio.slug}`, { changefreq: "monthly", priority: "0.5" }));
   }
 
-  const categories = await fetchTable("catalogs", "select=label&type=eq.category");
   for (const c of categories) {
-    entries.push(urlEntry(`/categorie/${slugify(c.label)}`, { changefreq: "weekly", priority: "0.6" }));
+    entries.push(
+      urlEntry(`/categorie/${slugify(c.label)}`, { changefreq: "weekly", priority: "0.6" }),
+    );
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</urlset>\n`;

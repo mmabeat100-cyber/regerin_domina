@@ -2,15 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs, EmptyState, PageHeader } from "@/components/site/Breadcrumbs";
 import { ProfileGrid } from "@/components/site/ProfileCard";
 import { usePublishedProfiles } from "@/services/profiles";
-import { useCountries, findCountry } from "@/services/geo";
-import { seedCountries } from "@/data/geo";
+import { useCountriesQuery, fetchCountries, findCountry } from "@/services/geo";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_site/ville/$country/$city")({
-  head: ({ params }) => {
+  head: async ({ params }) => {
+    const countries = await fetchCountries();
     const name =
-      seedCountries.flatMap((c) => c.cities).find((c) => c.slug === params.city)?.name ?? "Ville";
+      countries.flatMap((c) => c.cities).find((c) => c.slug === params.city)?.name ?? "Ville";
     return pageHead({
       title: `Domina à ${name} — ${SITE.name}`,
       description: `Trouvez une domina ou bizarrlady à ${name} : profils vérifiés, disponibilités et tarifs.`,
@@ -22,10 +22,11 @@ export const Route = createFileRoute("/_site/ville/$country/$city")({
 
 function CityPage() {
   const { country, city } = Route.useParams();
-  const countries = useCountries();
+  const { data: countries, isLoading } = useCountriesQuery();
   const profiles = usePublishedProfiles();
-  const c = findCountry(countries, country);
+  const c = countries && findCountry(countries, country);
   const ci = c?.cities.find((x) => x.slug === city);
+  if (isLoading) return null;
   if (!c || !ci)
     return (
       <div className="container-site py-20">

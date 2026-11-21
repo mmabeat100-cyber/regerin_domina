@@ -6,7 +6,7 @@ import type { Studio } from "@/types";
 
 const QUERY_KEY = ["studios"] as const;
 
-async function fetchStudios(): Promise<Studio[]> {
+export async function fetchStudios(): Promise<Studio[]> {
   const { data, error } = await supabase.from("studios").select("data");
   if (error) throw error;
   return (data ?? []).map((row) => row.data as unknown as Studio);

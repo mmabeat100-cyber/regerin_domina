@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { EmptyState, PageHeader } from "@/components/site/Breadcrumbs";
 import { ProfileGrid } from "@/components/site/ProfileCard";
 import { usePublishedProfiles } from "@/services/profiles";
-import { useCatalog, useCatalogT } from "@/services/catalogs";
+import { useCatalog, useCatalogT, useCatalogsQuery } from "@/services/catalogs";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 import { slugify } from "@/data/profiles";
@@ -23,12 +23,14 @@ function CategoryPage() {
   const { slug } = Route.useParams();
   // Slugs are derived from the stable French label so the URL stays the same
   // regardless of the visitor's chosen display language.
+  const { isLoading } = useCatalogsQuery();
   const rawCategories = useCatalog("category");
   const categories = useCatalogT("category");
   const match = rawCategories.find((c) => slugify(c.label) === slug);
   const label = categories.find((c) => c.id === match?.id)?.label;
   const profiles = usePublishedProfiles();
 
+  if (isLoading) return null;
   if (!match) {
     return (
       <div className="container-site py-20">

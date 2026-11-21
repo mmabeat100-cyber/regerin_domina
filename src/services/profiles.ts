@@ -20,6 +20,17 @@ async function fetchProfiles(): Promise<Profile[]> {
 export const useProfilesQuery = () =>
   useQuery({ queryKey: QUERY_KEY, queryFn: fetchProfiles, staleTime: 30_000 });
 
+export async function fetchProfileBySlug(slug: string): Promise<Profile | null> {
+  const { data, error } = await supabase
+    .from("listings")
+    .select("data")
+    .eq("status", "published")
+    .eq("data->>slug", slug)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? (data.data as unknown as Profile) : null;
+}
+
 export const useAllProfiles = () => useProfilesQuery().data ?? [];
 
 export const usePublishedProfiles = () => {
@@ -27,7 +38,6 @@ export const usePublishedProfiles = () => {
   return useMemo(() => all.filter((p) => p.status === "published"), [all]);
 };
 
-export const useProfileBySlug = (slug: string) => useAllProfiles().find((p) => p.slug === slug);
 export const useProfileById = (id: string) => useAllProfiles().find((p) => p.id === id);
 
 const now = () => new Date().toISOString();

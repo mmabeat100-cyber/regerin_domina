@@ -28,20 +28,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useProfileBySlug, usePublishedProfiles } from "@/services/profiles";
+import { useProfilesQuery, usePublishedProfiles, fetchProfileBySlug } from "@/services/profiles";
 import { useCountries, cityName } from "@/services/geo";
 import { useCatalogLabelT as useCatalogLabel } from "@/services/catalogs";
 import { useStudios } from "@/services/studios";
-import { seedProfiles } from "@/data/profiles";
 import { useT, useLocale, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 import type { Profile } from "@/types";
 
 export const Route = createFileRoute("/_site/profil/$slug")({
-  head: ({ params }) => {
+  head: async ({ params }) => {
     const t = locales[useLocaleStore.getState().locale];
-    const p = seedProfiles.find((x) => x.slug === params.slug);
+    const p = await fetchProfileBySlug(params.slug);
     const name = p?.displayName ?? t.profile.metaFallbackTitle;
     const desc = p
       ? t.profile.metaDescription(p.displayName, p.headline)
@@ -136,7 +135,8 @@ function ProfilePage() {
   const t = useT();
   const siteLocale = useLocale();
   const { slug } = Route.useParams();
-  const p = useProfileBySlug(slug);
+  const { data: profiles, isLoading } = useProfilesQuery();
+  const p = profiles?.find((x) => x.slug === slug);
   const all = usePublishedProfiles();
   const countries = useCountries();
   const studios = useStudios();
@@ -147,6 +147,7 @@ function ProfilePage() {
   const [report, setReport] = useState("");
   const [reportOpen, setReportOpen] = useState(false);
 
+  if (isLoading) return null;
   if (!p) {
     return (
       <div className="container-site py-20">

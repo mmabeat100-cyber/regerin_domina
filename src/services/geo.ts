@@ -7,7 +7,7 @@ import type { City, Country } from "@/types";
 
 const QUERY_KEY = ["countries"] as const;
 
-async function fetchCountries(): Promise<Country[]> {
+export async function fetchCountries(): Promise<Country[]> {
   const { data, error } = await supabase.from("countries").select("data").order("sort");
   if (error) throw error;
   return (data ?? []).map((row) => row.data as unknown as Country);

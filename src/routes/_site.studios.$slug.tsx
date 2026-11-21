@@ -4,16 +4,16 @@ import { Breadcrumbs, EmptyState } from "@/components/site/Breadcrumbs";
 import { Media } from "@/components/site/Media";
 import { ProfileGrid } from "@/components/site/ProfileCard";
 import { Button } from "@/components/ui/button";
-import { useStudios } from "@/services/studios";
+import { useStudiosQuery, fetchStudios } from "@/services/studios";
 import { usePublishedProfiles } from "@/services/profiles";
 import { useCountries, cityName } from "@/services/geo";
-import { seedStudios } from "@/data/studios";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_site/studios/$slug")({
-  head: ({ params }) => {
-    const n = seedStudios.find((s) => s.slug === params.slug)?.name ?? "Studio";
+  head: async ({ params }) => {
+    const studios = await fetchStudios();
+    const n = studios.find((s) => s.slug === params.slug)?.name ?? "Studio";
     return pageHead({
       title: `${n} — ${SITE.name}`,
       description: `${n} : présentation du studio et des profils qui y reçoivent.`,
@@ -25,9 +25,11 @@ export const Route = createFileRoute("/_site/studios/$slug")({
 
 function StudioPage() {
   const { slug } = Route.useParams();
-  const s = useStudios().find((x) => x.slug === slug);
+  const { data: studios, isLoading } = useStudiosQuery();
+  const s = studios?.find((x) => x.slug === slug);
   const profiles = usePublishedProfiles();
   const countries = useCountries();
+  if (isLoading) return null;
   if (!s)
     return (
       <div className="container-site py-20">

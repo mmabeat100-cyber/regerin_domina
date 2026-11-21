@@ -2,14 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs, EmptyState, PageHeader } from "@/components/site/Breadcrumbs";
 import { ProfileGrid } from "@/components/site/ProfileCard";
 import { usePublishedProfiles } from "@/services/profiles";
-import { useCountries, findCountry } from "@/services/geo";
-import { seedCountries } from "@/data/geo";
+import { useCountriesQuery, fetchCountries, findCountry } from "@/services/geo";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_site/pays/$country")({
-  head: ({ params }) => {
-    const name = seedCountries.find((c) => c.slug === params.country)?.name ?? "Pays";
+  head: async ({ params }) => {
+    const countries = await fetchCountries();
+    const name = findCountry(countries, params.country)?.name ?? "Pays";
     return pageHead({
       title: `Domina en ${name} — ${SITE.name}`,
       description: `Dominas, bizarrladies et studios en ${name} : profils vérifiés, tarifs et contact direct.`,
@@ -21,9 +21,10 @@ export const Route = createFileRoute("/_site/pays/$country")({
 
 function CountryPage() {
   const { country } = Route.useParams();
-  const countries = useCountries();
+  const { data: countries, isLoading } = useCountriesQuery();
   const profiles = usePublishedProfiles();
-  const c = findCountry(countries, country);
+  const c = countries && findCountry(countries, country);
+  if (isLoading) return null;
   if (!c)
     return (
       <div className="container-site py-20">
