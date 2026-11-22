@@ -3,17 +3,20 @@ import { Breadcrumbs, EmptyState, PageHeader } from "@/components/site/Breadcrum
 import { ProfileGrid } from "@/components/site/ProfileCard";
 import { usePublishedProfiles } from "@/services/profiles";
 import { useCountriesQuery, fetchCountries, findCountry } from "@/services/geo";
+import { useT, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_site/ville/$country/$city")({
   head: async ({ params }) => {
+    const t = locales[useLocaleStore.getState().locale];
     const countries = await fetchCountries();
     const name =
-      countries.flatMap((c) => c.cities).find((c) => c.slug === params.city)?.name ?? "Ville";
+      countries.flatMap((c) => c.cities).find((c) => c.slug === params.city)?.name ??
+      t.geo.cityNotFound;
     return pageHead({
-      title: `Domina à ${name} — ${SITE.name}`,
-      description: `Trouvez une domina ou bizarrlady à ${name} : profils vérifiés, disponibilités et tarifs.`,
+      title: `${t.geo.cityTitle(name)} — ${SITE.name}`,
+      description: t.geo.cityMetaDescription(name),
       path: `/ville/${params.country}/${params.city}`,
     });
   },
@@ -21,6 +24,7 @@ export const Route = createFileRoute("/_site/ville/$country/$city")({
 });
 
 function CityPage() {
+  const t = useT();
   const { country, city } = Route.useParams();
   const { data: countries, isLoading } = useCountriesQuery();
   const profiles = usePublishedProfiles();
@@ -30,7 +34,7 @@ function CityPage() {
   if (!c || !ci)
     return (
       <div className="container-site py-20">
-        <EmptyState title="Ville introuvable" />
+        <EmptyState title={t.geo.cityNotFound} />
       </div>
     );
   const list = profiles.filter((p) => p.availability.some((a) => a.cities.includes(ci.slug)));
@@ -43,20 +47,17 @@ function CityPage() {
           { label: ci.name },
         ]}
       />
-      <PageHeader eyebrow={c.name} title={`Domina à ${ci.name}`}>
+      <PageHeader eyebrow={c.name} title={t.geo.cityTitle(ci.name)}>
         {ci.seoText}
       </PageHeader>
       {list.length ? (
         <ProfileGrid profiles={list} />
       ) : (
-        <EmptyState
-          title="Aucun profil pour le moment"
-          text="Revenez bientôt, de nouveaux profils sont ajoutés régulièrement."
-        />
+        <EmptyState title={t.geo.noProfilesYet} text={t.geo.comeBackSoon} />
       )}
       {nearby.length > 0 && (
         <section className="mt-16">
-          <h2 className="text-3xl">Villes voisines</h2>
+          <h2 className="text-3xl">{t.geo.nearbyCities}</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {nearby.map((n) => (
               <Link

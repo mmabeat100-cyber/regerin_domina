@@ -11,6 +11,10 @@ export const fr = {
     allCountries: "Tous les pays",
     signup: "S'inscrire",
   },
+  breadcrumb: {
+    home: "Accueil",
+    ariaLabel: "Fil d'Ariane",
+  },
   signup: {
     title: "Inscription",
     text: "Soumettez votre profil ci-dessous pour examen par notre équipe. Vous serez contacté·e après validation.",
@@ -177,6 +181,34 @@ export const fr = {
     metaFallbackDescription: "Fiche profil",
     metaDescription: (name: string, headline: string) =>
       `${name} — ${headline} Tarifs, disponibilités et contact direct.`,
+  },
+  geo: {
+    countryEyebrow: "Pays",
+    countryNotFound: "Pays introuvable",
+    countryTitle: (name: string) => `Domina en ${name}`,
+    countryIntro: (name: string) =>
+      `Une sélection discrète de profils disponibles en ${name}, présentés par notre équipe éditoriale.`,
+    countryMetaDescription: (name: string) =>
+      `Dominas, bizarrladies et studios en ${name} : profils vérifiés, tarifs et contact direct.`,
+    cityNotFound: "Ville introuvable",
+    cityTitle: (name: string) => `Domina à ${name}`,
+    cityMetaDescription: (name: string) =>
+      `Trouvez une domina ou bizarrlady à ${name} : profils vérifiés, disponibilités et tarifs.`,
+    noProfilesYet: "Aucun profil pour le moment",
+    comeBackSoon: "Revenez bientôt, de nouveaux profils sont ajoutés régulièrement.",
+    nearbyCities: "Villes voisines",
+    studioNotFound: "Studio introuvable",
+    studioWebsite: "Site du studio",
+    studioProfiles: "Profils du studio",
+    noProfilesForStudio: "Aucun profil rattaché",
+    studioMetaDescription: (name: string) => `${name} : présentation du studio et des profils qui y reçoivent.`,
+    categoryEyebrow: "Catégorie",
+    categoryNotFound: "Catégorie introuvable",
+    categoryIntro: (label: string) =>
+      `Une sélection de profils ${label}, vérifiés et présentés par notre équipe éditoriale.`,
+    categoryMetaDescription: (label: string) =>
+      `Profils de catégorie ${label} : sélection vérifiée, tarifs et contact direct.`,
+    otherCategories: "Autres catégories",
   },
   reviewsDialog: {
     count: (n: number) => `${n} avis`,

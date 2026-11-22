@@ -3,16 +3,18 @@ import { EmptyState, PageHeader } from "@/components/site/Breadcrumbs";
 import { ProfileGrid } from "@/components/site/ProfileCard";
 import { usePublishedProfiles } from "@/services/profiles";
 import { useCatalog, useCatalogT, useCatalogsQuery } from "@/services/catalogs";
+import { useT, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 import { slugify } from "@/data/profiles";
 
 export const Route = createFileRoute("/_site/categorie/$slug")({
   head: ({ params }) => {
-    const title = `${params.slug.replace(/-/g, " ")} — ${SITE.name}`;
+    const t = locales[useLocaleStore.getState().locale];
+    const label = params.slug.replace(/-/g, " ");
     return pageHead({
-      title,
-      description: `Profils de catégorie ${params.slug.replace(/-/g, " ")} : sélection vérifiée, tarifs et contact direct.`,
+      title: `${label} — ${SITE.name}`,
+      description: t.geo.categoryMetaDescription(label),
       path: `/categorie/${params.slug}`,
     });
   },
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/_site/categorie/$slug")({
 });
 
 function CategoryPage() {
+  const t = useT();
   const { slug } = Route.useParams();
   // Slugs are derived from the stable French label so the URL stays the same
   // regardless of the visitor's chosen display language.
@@ -34,9 +37,9 @@ function CategoryPage() {
   if (!match) {
     return (
       <div className="container-site py-20">
-        <title>{`Catégorie introuvable — ${SITE.name}`}</title>
+        <title>{`${t.geo.categoryNotFound} — ${SITE.name}`}</title>
         <meta name="robots" content="noindex, nofollow" />
-        <EmptyState title="Catégorie introuvable" />
+        <EmptyState title={t.geo.categoryNotFound} />
       </div>
     );
   }
@@ -46,18 +49,17 @@ function CategoryPage() {
 
   return (
     <div className="container-site pt-8">
-      <PageHeader eyebrow="Catégorie" title={label ?? match.label}>
-        Une sélection de profils {label ?? match.label}, vérifiés et présentés par notre équipe
-        éditoriale.
+      <PageHeader eyebrow={t.geo.categoryEyebrow} title={label ?? match.label}>
+        {t.geo.categoryIntro(label ?? match.label)}
       </PageHeader>
       {list.length ? (
         <ProfileGrid profiles={list} />
       ) : (
-        <EmptyState title="Aucun profil pour le moment" />
+        <EmptyState title={t.geo.noProfilesYet} />
       )}
       {others.length > 0 && (
         <section className="mt-16">
-          <h2 className="text-3xl">Autres catégories</h2>
+          <h2 className="text-3xl">{t.geo.otherCategories}</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {others.map((c) => (
               <Link

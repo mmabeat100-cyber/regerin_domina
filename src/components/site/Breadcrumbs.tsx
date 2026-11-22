@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
+import { useT } from "@/i18n";
 
 export interface Crumb {
   label: string;
@@ -8,10 +9,11 @@ export interface Crumb {
 }
 
 export function Breadcrumbs({ items }: { items: Crumb[] }) {
+  const t = useT();
   return (
-    <nav aria-label="Fil d'Ariane" className="text-xs text-muted-foreground">
+    <nav aria-label={t.breadcrumb.ariaLabel} className="text-xs text-muted-foreground">
       <ol className="flex flex-wrap items-center gap-1.5">
-        <li><Link to="/" className="hover:text-foreground">Accueil</Link></li>
+        <li><Link to="/" className="hover:text-foreground">{t.breadcrumb.home}</Link></li>
         {items.map((c, i) => (
           <li key={i} className="flex items-center gap-1.5">
             <ChevronRight className="h-3 w-3" aria-hidden />

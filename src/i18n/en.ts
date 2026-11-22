@@ -11,6 +11,10 @@ export const en = {
     allCountries: "All countries",
     signup: "Sign up",
   },
+  breadcrumb: {
+    home: "Home",
+    ariaLabel: "Breadcrumb",
+  },
   signup: {
     title: "Sign up",
     text: "Submit your profile below for review by our team. You'll be contacted once it's approved.",
@@ -176,6 +180,34 @@ export const en = {
     metaFallbackDescription: "Profile sheet",
     metaDescription: (name: string, headline: string) =>
       `${name} — ${headline} Rates, availability and direct contact.`,
+  },
+  geo: {
+    countryEyebrow: "Country",
+    countryNotFound: "Country not found",
+    countryTitle: (name: string) => `Domina in ${name}`,
+    countryIntro: (name: string) =>
+      `A discreet selection of profiles available in ${name}, curated by our editorial team.`,
+    countryMetaDescription: (name: string) =>
+      `Dominas, bizarre ladies and studios in ${name}: verified profiles, rates and direct contact.`,
+    cityNotFound: "City not found",
+    cityTitle: (name: string) => `Domina in ${name}`,
+    cityMetaDescription: (name: string) =>
+      `Find a domina or bizarre lady in ${name}: verified profiles, availability and rates.`,
+    noProfilesYet: "No profiles yet",
+    comeBackSoon: "Check back soon, new profiles are added regularly.",
+    nearbyCities: "Nearby cities",
+    studioNotFound: "Studio not found",
+    studioWebsite: "Studio website",
+    studioProfiles: "Studio profiles",
+    noProfilesForStudio: "No profiles linked to this studio",
+    studioMetaDescription: (name: string) => `${name}: studio overview and the profiles based there.`,
+    categoryEyebrow: "Category",
+    categoryNotFound: "Category not found",
+    categoryIntro: (label: string) =>
+      `A selection of ${label} profiles, verified and curated by our editorial team.`,
+    categoryMetaDescription: (label: string) =>
+      `${label} profiles: verified selection, rates and direct contact.`,
+    otherCategories: "Other categories",
   },
   reviewsDialog: {
     count: (n: number) => `${n} review${n > 1 ? "s" : ""}`,

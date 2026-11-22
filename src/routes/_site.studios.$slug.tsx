@@ -7,16 +7,18 @@ import { Button } from "@/components/ui/button";
 import { useStudiosQuery, fetchStudios } from "@/services/studios";
 import { usePublishedProfiles } from "@/services/profiles";
 import { useCountries, cityName } from "@/services/geo";
+import { useT, useLocaleStore, locales } from "@/i18n";
 import { SITE } from "@/config/site";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_site/studios/$slug")({
   head: async ({ params }) => {
+    const t = locales[useLocaleStore.getState().locale];
     const studios = await fetchStudios();
-    const n = studios.find((s) => s.slug === params.slug)?.name ?? "Studio";
+    const n = studios.find((s) => s.slug === params.slug)?.name ?? t.geo.studioNotFound;
     return pageHead({
       title: `${n} — ${SITE.name}`,
-      description: `${n} : présentation du studio et des profils qui y reçoivent.`,
+      description: t.geo.studioMetaDescription(n),
       path: `/studios/${params.slug}`,
     });
   },
@@ -24,6 +26,7 @@ export const Route = createFileRoute("/_site/studios/$slug")({
 });
 
 function StudioPage() {
+  const t = useT();
   const { slug } = Route.useParams();
   const { data: studios, isLoading } = useStudiosQuery();
   const s = studios?.find((x) => x.slug === slug);
@@ -33,13 +36,13 @@ function StudioPage() {
   if (!s)
     return (
       <div className="container-site py-20">
-        <EmptyState title="Studio introuvable" />
+        <EmptyState title={t.geo.studioNotFound} />
       </div>
     );
   const list = profiles.filter((p) => p.studioId === s.id);
   return (
     <div className="container-site pt-8">
-      <Breadcrumbs items={[{ label: "Studios", to: "/studios" }, { label: s.name }]} />
+      <Breadcrumbs items={[{ label: t.nav.studios, to: "/studios" }, { label: s.name }]} />
       <div className="mt-6 grid items-end gap-8 md:grid-cols-[2fr_3fr]">
         <div className="aspect-[4/3] overflow-hidden rounded-lg border border-border">
           <Media src={s.image} alt={s.name} eager />
@@ -54,14 +57,18 @@ function StudioPage() {
           {s.website && (
             <Button asChild variant="gold">
               <a href={s.website} target="_blank" rel="noreferrer">
-                <Globe /> Site du studio
+                <Globe /> {t.geo.studioWebsite}
               </a>
             </Button>
           )}
         </div>
       </div>
-      <h2 className="mb-6 mt-16 text-3xl">Profils du studio</h2>
-      {list.length ? <ProfileGrid profiles={list} /> : <EmptyState title="Aucun profil rattaché" />}
+      <h2 className="mb-6 mt-16 text-3xl">{t.geo.studioProfiles}</h2>
+      {list.length ? (
+        <ProfileGrid profiles={list} />
+      ) : (
+        <EmptyState title={t.geo.noProfilesForStudio} />
+      )}
     </div>
   );
 }

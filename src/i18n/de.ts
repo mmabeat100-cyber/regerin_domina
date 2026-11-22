@@ -11,6 +11,10 @@ export const de = {
     allCountries: "Alle Länder",
     signup: "Registrieren",
   },
+  breadcrumb: {
+    home: "Startseite",
+    ariaLabel: "Brotkrümelnavigation",
+  },
   signup: {
     title: "Registrierung",
     text: "Reichen Sie unten Ihr Profil zur Prüfung durch unser Team ein. Sie werden nach der Freigabe kontaktiert.",
@@ -179,6 +183,34 @@ export const de = {
     metaFallbackDescription: "Profilseite",
     metaDescription: (name: string, headline: string) =>
       `${name} — ${headline} Preise, Verfügbarkeit und direkter Kontakt.`,
+  },
+  geo: {
+    countryEyebrow: "Land",
+    countryNotFound: "Land nicht gefunden",
+    countryTitle: (name: string) => `Domina in ${name}`,
+    countryIntro: (name: string) =>
+      `Eine diskrete Auswahl an Profilen in ${name}, zusammengestellt von unserem Redaktionsteam.`,
+    countryMetaDescription: (name: string) =>
+      `Dominas, Bizarrladies und Studios in ${name}: verifizierte Profile, Preise und direkter Kontakt.`,
+    cityNotFound: "Stadt nicht gefunden",
+    cityTitle: (name: string) => `Domina in ${name}`,
+    cityMetaDescription: (name: string) =>
+      `Finden Sie eine Domina oder Bizarrlady in ${name}: verifizierte Profile, Verfügbarkeit und Preise.`,
+    noProfilesYet: "Noch keine Profile",
+    comeBackSoon: "Schauen Sie bald wieder vorbei, es werden regelmäßig neue Profile hinzugefügt.",
+    nearbyCities: "Städte in der Nähe",
+    studioNotFound: "Studio nicht gefunden",
+    studioWebsite: "Studio-Webseite",
+    studioProfiles: "Studio-Profile",
+    noProfilesForStudio: "Keine Profile diesem Studio zugeordnet",
+    studioMetaDescription: (name: string) => `${name}: Vorstellung des Studios und der dort tätigen Profile.`,
+    categoryEyebrow: "Kategorie",
+    categoryNotFound: "Kategorie nicht gefunden",
+    categoryIntro: (label: string) =>
+      `Eine Auswahl an ${label}-Profilen, verifiziert und zusammengestellt von unserem Redaktionsteam.`,
+    categoryMetaDescription: (label: string) =>
+      `${label}-Profile: verifizierte Auswahl, Preise und direkter Kontakt.`,
+    otherCategories: "Weitere Kategorien",
   },
   reviewsDialog: {
     count: (n: number) => `${n} Bewertung${n > 1 ? "en" : ""}`,
